@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TigerWeb.Repositories.Categories;
+using Microsoft.EntityFrameworkCore;
+using TigerWeb.Repositories;
 
 namespace TigerWeb
 {
@@ -45,6 +47,9 @@ namespace TigerWeb
             services.AddSingleton<ICategoryRepository, CategoryRepository>();
             // Add framework services.
             services.AddMvc();
+
+            var connection = @"Server=(localdb)\mssqllocaldb;Database=TigerWeb.NewDb;Trusted_Connection=True;";
+            services.AddDbContext<TigerContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

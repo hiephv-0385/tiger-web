@@ -3,13 +3,13 @@
     <h1>{{message}}</h1>
 
     <div class="row">
-        <form class="form-inline" (ngSubmit)="addCategory()" #categoryForm="ngForm">
+        <form class="form-inline" (ngSubmit)="addProduct()" #productForm="ngForm">
             <div class="form-group">
-                <label class="sr-only" for="exampleInputCategory">Category</label>
-                <input type="text" class="form-control" id="exampleInputCategory" placeholder="Name of the category ..." name="category" [(ngModel)]="category.name"
+                <label class="sr-only" for="inputProduct">Category</label>
+                <input type="text" class="form-control" id="inputProduct" placeholder="Name of the product ..." name="product" [(ngModel)]="product.name"
                        required>
-                <label class="sr-only" for="inputSort">Sort</label>
-                <input type="number" class="form-control" id="inputSort" name="sort" [(ngModel)]="category.sort" value="0" required/>
+                <label class="sr-only" for="inputCategoryId">Sort</label>
+                <input type="number" class="form-control" id="inputCategoryId" name="categoryId" [(ngModel)]="category.sort" value="0" required />
             </div>
             <button type="submit" class="btn btn-primary" [disabled]="!categoryForm.valid">Create new Category</button>
         </form>

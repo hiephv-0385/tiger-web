@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
     public category: Category = new Category();
 
     constructor(private dataService: CategoryService) {
-        this.message = 'Things from the ASP.NET Core API';
+        this.message = 'Categories from the ASP.NET Core API';
     }
 
     ngOnInit() {
@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
     }
 
     public addCategory() {
+        console.log("this.category", this.category);
         this.dataService
             .Add(this.category)
             .subscribe(() => {

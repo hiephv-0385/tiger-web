@@ -8,49 +8,53 @@ namespace TigerWeb.Repositories.Categories
 {
     public class CategoryRepository: ICategoryRepository
     {
-        private readonly ConcurrentDictionary<int, Category> _storage = new ConcurrentDictionary<int, Category>();
+        private readonly TigerContext _tigerContext;
+
+        public CategoryRepository(TigerContext tigerContext)
+        {
+            _tigerContext = tigerContext;
+        }
 
         public Category GetSingle(int id)
         {
-            Category category;
-            return _storage.TryGetValue(id, out category) ? category : null;
+            return _tigerContext.Categories.Find(id);
         }
 
         public Category Add(Category item)
         {
-            item.Id = !GetAll().Any() ? 1 : GetAll().Max(x => x.Id) + 1;
+            _tigerContext.Categories.Add(item);
+            _tigerContext.SaveChanges();
 
-            if (_storage.TryAdd(item.Id, item))
-            {
-                return item;
-            }
-
-            throw new Exception("Item could not be added");
+            return item;
         }
 
         public void Delete(int id)
         {
-            Category category;
-            if (!_storage.TryRemove(id, out category))
+            Category category = _tigerContext.Categories.Find(id);
+            if (category == null)
             {
                 throw new Exception("Item could not be removed");
             }
+            _tigerContext.Categories.Remove(category);
+            _tigerContext.SaveChanges();
         }
 
         public Category Update(int id, Category item)
         {
-            _storage.TryUpdate(id, item, GetSingle(id));
+            _tigerContext.Categories.Update(item);
+            _tigerContext.SaveChanges();
+
             return item;
         }
 
         public ICollection<Category> GetAll()
         {
-            return _storage.Values;
+            return _tigerContext.Categories.ToList();
         }
 
         public int Count()
         {
-            return _storage.Count;
+            return _tigerContext.Categories.Count();
         }
     }
 }

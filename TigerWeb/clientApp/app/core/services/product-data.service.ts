@@ -1,4 +1,4 @@
-﻿import { Category } from './../../models/category';
+﻿import { Product } from './../../models/product';
 import { Configuration } from './../../app.constants';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
@@ -6,47 +6,48 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class CategoryService {
+export class ProductService {
 
     private actionUrl: string;
     private headers: Headers;
 
     constructor(private http: Http, private configuration: Configuration) {
 
-        this.actionUrl = configuration.Server + 'api/categories/';
+        this.actionUrl = configuration.Server + 'api/products/';
 
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
     }
 
-    public GetAll(): Observable<Category[]> {
+    public GetAll(): Observable<Product[]> {
         return this.http
             .post(this.actionUrl + 'all/', '', { headers: this.headers })
-            .map((response: Response) => <Category[]>response.json());
+            .map((response: Response) => <Product[]>response.json());
     }
 
-    public GetSingle(id: number): Observable<Category> {
+    public GetPoduct(id: number): Observable<Category> {
         return this.http
             .get(this.actionUrl + id)
-            .map(res => <Category>res.json());
+            .map(res => <Product>res.json());
     }
 
-    public Add(categoryToAdd: Category): Observable<Category> {
-        const toAdd = JSON.stringify({ name: categoryToAdd.name, sort: categoryToAdd.sort });
+    public Add(prod: Product): Observable<Category> {
+        const toAdd = JSON.stringify({ name: prod.name, categoryId: prod.categoryId });
 
         return this.http
             .post(this.actionUrl, toAdd, { headers: this.headers })
-            .map(res => <Category>res.json());
+            .map(res => <Product>res.json());
     }
 
     public Update(id: number, itemToUpdate: any): Observable<Category> {
         return this.http
             .put(this.actionUrl + id, JSON.stringify(itemToUpdate), { headers: this.headers })
-            .map(res => <Category>res.json());
+            .map(res => <Product>res.json());
     }
 
     public Delete(id: number): Observable<any> {
-        return this.http.delete(this.actionUrl + id);
+        return this.http
+            .delete(this.actionUrl + id);
     }
 }
