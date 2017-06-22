@@ -7,6 +7,8 @@ import { HttpModule } from '@angular/http';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { HomeModule } from './home/home.module';
+import { ProductModule } from './product/product.module';
+import { LiveModule } from './live/live.module';
 
 import { Configuration } from './app.constants';
 import { AppRoutes } from './app.routes';
@@ -19,14 +21,16 @@ import { AppComponent } from './app.component';
         AppRoutes,
         SharedModule,
         CoreModule.forRoot(),
-        HomeModule
+        HomeModule,
+        ProductModule,
+        LiveModule
     ],
 
     declarations: [
         AppComponent
     ],
 
-    bootstrap: [AppComponent],
+    bootstrap: [AppComponent]
 })
 
 export class AppModule { }

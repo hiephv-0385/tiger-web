@@ -1,4 +1,5 @@
 ﻿import 'jquery/src/jquery';
+import 'video.js';
 import 'bootstrap/dist/js/bootstrap';
 
 import 'bootstrap/dist/css/bootstrap.css';

@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
     }
 
     public addCategory() {
-        console.log("this.category", this.category);
         this.dataService
             .Add(this.category)
             .subscribe(() => {

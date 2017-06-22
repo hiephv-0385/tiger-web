@@ -5,7 +5,7 @@ import './app.component.scss';
 import '../styles/app.scss';
 
 @Component({
-    selector: 'my-app',
+    selector: 'tiger-app',
     templateUrl: 'app.component.html'
 })
 

@@ -14,9 +14,11 @@ export class ProductComponent implements OnInit {
     public message: string;
     public products: Product[] = [];
     public product: Product = new Product();
+    public updatedProduct: Product = new Product();
     public categories: Category[] = [];
+    public selectedCategory: Category = new Category();
 
-    constructor(private categoryService: ProductService, private productService: ProductService) {
+    constructor(private categoryService: CategoryService, private productService: ProductService) {
         this.message = 'Products from the Tiger web';
     }
 
@@ -25,6 +27,7 @@ export class ProductComponent implements OnInit {
     }
 
     public addProduct() {
+        this.product.categoryId = this.selectedCategory.id;
         this.productService
             .Add(this.product)
             .subscribe(() => {
@@ -33,6 +36,25 @@ export class ProductComponent implements OnInit {
             }, (error) => {
                 console.log(error);
             });
+    }
+
+    public editProduct(product: Product): void {
+        this.updatedProduct = product;
+    }
+
+    public saveProduct(productId: number): void {
+        this.productService
+            .Update(productId, this.updatedProduct)
+            .subscribe(() => {
+                this.getAllProducts();
+                this.updatedProduct = new Product();
+            }, (error) => {
+                console.log(error);
+            });
+    }
+
+    public cancel(): void {
+        this.updatedProduct = new Product();
     }
 
     public deleteProduct(product: Product) {
@@ -49,7 +71,10 @@ export class ProductComponent implements OnInit {
         this.productService
             .GetAll()
             .subscribe(
-            data => this.products = data,
+            data => {
+                this.products = data;
+                this.getAllCategories();
+            },
             error => console.log(error),
             () => console.log('Get all products complete')
             );
@@ -59,9 +84,14 @@ export class ProductComponent implements OnInit {
         this.categoryService
             .GetAll()
             .subscribe(
-            data => this.categories = data,
+            data => {
+                this.categories = data;
+                if (this.categories.length > 0) {
+                    this.selectedCategory = this.categories[0];
+                }
+            },
             error => console.log(error),
-            () => console.log('Get all categories complete')
+            () => console.log('Get all complete')
             );
     }
 }

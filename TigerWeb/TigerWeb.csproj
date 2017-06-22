@@ -6,7 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Content Include="clientApp\images\chu_ech_con.mp4" />
+    <Content Include="clientApp\images\sun_yeu.jpg" />
+    <Content Include="wwwroot\assets\chu_ech_con.mp4" />
+    <Content Include="wwwroot\assets\sun_yeu.jpg" />
   </ItemGroup>
   <ItemGroup>
 	  <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
@@ -31,6 +34,12 @@
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tiger.Data\Tiger.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

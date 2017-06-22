@@ -22,7 +22,7 @@ export class CategoryService {
 
     public GetAll(): Observable<Category[]> {
         return this.http
-            .post(this.actionUrl + 'all/', '', { headers: this.headers })
+            .get(this.actionUrl + 'all/')
             .map((response: Response) => <Category[]>response.json());
     }
 

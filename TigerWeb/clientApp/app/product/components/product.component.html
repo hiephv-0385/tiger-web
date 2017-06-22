@@ -5,42 +5,64 @@
     <div class="row">
         <form class="form-inline" (ngSubmit)="addProduct()" #productForm="ngForm">
             <div class="form-group">
-                <label class="sr-only" for="inputProduct">Category</label>
+                <label class="sr-only" for="inputProduct ">Product</label>
                 <input type="text" class="form-control" id="inputProduct" placeholder="Name of the product ..." name="product" [(ngModel)]="product.name"
                        required>
                 <label class="sr-only" for="inputCategoryId">Sort</label>
-                <input type="number" class="form-control" id="inputCategoryId" name="categoryId" [(ngModel)]="category.sort" value="0" required />
+                <select name="categoryId" class="form-control" [(ngModel)]="selectedCategory.id">
+                    <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+                </select>
             </div>
-            <button type="submit" class="btn btn-primary" [disabled]="!categoryForm.valid">Create new Category</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Create new Product</button>
         </form>
     </div>
 
-    <div class="row" *ngIf="categories.length > 0">
+    <div class="row" *ngIf="products.length > 0">
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>Name</th>
-                        <th>Sort</th>
+                        <th>Category</th>
+                        <th>Edit</th>
                         <th class="text-right"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let category of categories; let i = index">
+                    <tr *ngFor="let product of products; let i = index">
                         <td>{{i + 1}}</td>
-                        <td>{{category.name}}</td>
-                        <td>{{category.sort}}</td>
+                        <td>{{product.name}}</td>
+                        <td>{{product.category.name}}</td>
+                        <td>
+                            <a href="javascript:void(0)" (click)="editProduct(product)">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                        </td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-xs btn-danger" (click)="deleteCategory(category)">Delete</button>
+                            <button type="button" class="btn btn-xs btn-danger" (click)="deleteProduct(product)">Delete</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+    <div class="row" *ngIf="updatedProduct.id">
+        <div class="form-group">
+            <label for="">Name:</label>
+            <input type="text" class="form-control" [(ngModel)]="updatedProduct.name" />
+            <label for="">Category:</label>
+            <select name="updatedCategoryId" class="form-control" [(ngModel)]="updatedProduct.categoryId">
+                <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+            </select>
+            <div class="form-group">
+                <button class="btn btn-primary" (click)="saveProduct(updatedProduct.id)">Save</button>
+                <button class="btn" (click)="cancel()">Cancel</button>
+            </div>
+        </div>
+    </div>
 
-    <div class="row" *ngIf="categories.length <= 0">
+    <div class="row" *ngIf="products.length <= 0">
         <span>No items found</span>
     </div>
 

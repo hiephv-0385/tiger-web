@@ -26,13 +26,13 @@ export class ProductService {
             .map((response: Response) => <Product[]>response.json());
     }
 
-    public GetPoduct(id: number): Observable<Category> {
+    public GetPoduct(id: number): Observable<Product> {
         return this.http
             .get(this.actionUrl + id)
             .map(res => <Product>res.json());
     }
 
-    public Add(prod: Product): Observable<Category> {
+    public Add(prod: Product): Observable<Product> {
         const toAdd = JSON.stringify({ name: prod.name, categoryId: prod.categoryId });
 
         return this.http
@@ -40,7 +40,7 @@ export class ProductService {
             .map(res => <Product>res.json());
     }
 
-    public Update(id: number, itemToUpdate: any): Observable<Category> {
+    public Update(id: number, itemToUpdate: Product): Observable<Product> {
         return this.http
             .put(this.actionUrl + id, JSON.stringify(itemToUpdate), { headers: this.headers })
             .map(res => <Product>res.json());

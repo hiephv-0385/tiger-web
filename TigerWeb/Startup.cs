@@ -8,9 +8,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using TigerWeb.Repositories.Categories;
 using Microsoft.EntityFrameworkCore;
-using TigerWeb.Repositories;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Tiger.Data.Repositories.Categories;
+using Tiger.Data.Repositories.Products;
+using Tiger.Data;
 
 namespace TigerWeb
 {
@@ -45,8 +48,12 @@ namespace TigerWeb
 
             // Add framework services.
             services.AddSingleton<ICategoryRepository, CategoryRepository>();
+            services.AddSingleton<IProductRepository, ProductRepository>();
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
 
             var connection = @"Server=(localdb)\mssqllocaldb;Database=TigerWeb.NewDb;Trusted_Connection=True;";
             services.AddDbContext<TigerContext>(options => options.UseSqlServer(connection));
@@ -60,6 +67,8 @@ namespace TigerWeb
 
             var angularRoutes = new[] {
                  "/home",
+                 "/products",
+                 "/live",
                  "/about"
              };
 
